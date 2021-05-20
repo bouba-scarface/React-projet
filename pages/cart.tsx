@@ -9,7 +9,7 @@ type panierType = {
 };
 
 type panierTypeProps = {
-  data: panierType;
+  data: panierType[];
 };
 
 const cart: React.FC<panierTypeProps> = ({ data }) => {
@@ -28,60 +28,75 @@ const cart: React.FC<panierTypeProps> = ({ data }) => {
 
         <table className="table table-dark">
           <thead>
-            <td className="text-black">Num</td>
-            <td className="text-back">Produit(s)</td>
-            <td>Supprimer</td>
-            <td>Price</td>
+          <tr>
+            <th scope="col" className="text-black">Num</th>
+            <th scope="col" className="text-back">Produit(s)</th>
+            <th scope="col">Supprimer</th>
+            <th scope="col">Price</th>
+    </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{}</td>
 
-              <td>
-                <div className="d-flex align-items-center">
-                  <div className="flex-shrink-0">
-                    <img src={data.cover} alt="..." className="h-5rem" />
+            {data.map((game,index) =>{
+               if( index % 2 ===0){
+                return(
+                  <tr>
+                  <td>{index+1}</td>
+    
+                  <td>
+                    <div className="d-flex align-items-center">
+                      <div className="flex-shrink-0">
+                        <img src={game.cover} alt="..." className="h-5rem" />
+                      </div>
+                      <div className="flex-grow-1 ms-3">{game.name}</div>
+                    </div>
+                  </td>
+                  <td>
+                    <form action="/delete" method="post">
+                      <input type="hidden" name="slug" value="{{ car.slug }}" />
+                      <button type="submit" className="btn btn-outline-secondary">
+                        <i className="fas fa-trash-alt fs-6"></i>
+                      </button>
+                    </form>
+                  </td>
+                  <td>{game.price} €</td>
+                </tr>
+                )
+               }else{
+                <tr className="table-active">
+                <td>{index+1}</td>
+  
+                <td>
+                  <div className="d-flex align-items-center">
+                    <div className="flex-shrink-0">
+                      <img src={ game.cover } alt="..." className="h-5rem" />
+                    </div>
+                    <div className="flex-grow-1 ms-3">{game.name}</div>
                   </div>
-                  <div className="flex-grow-1 ms-3">{}</div>
-                </div>
-              </td>
-              <td>
-                <form action="/delete" method="post">
-                  <input type="hidden" name="slug" value="{{ car.slug }}" />
-                  <button type="submit" className="btn btn-outline-secondary">
-                    <i className="fas fa-trash-alt fs-6"></i>
-                  </button>
-                </form>
-              </td>
-              <td>{} $</td>
-            </tr>
+                </td>
+                <td>
+                  <form action="/delete" method="post">
+                    <input type="hidden" name="slug" value="{{ car.slug }}" />
+                    <button type="submit" className="btn btn-outline-secondary">
+                      <i className="fas fa-trash-alt fs-6"></i>
+                    </button>
+                  </form>
+                </td>
+                <td>{game.price} €</td>
+              </tr>
+               }
+              
+            })}
+            
 
-            <tr className="table-active">
-              <td>{}</td>
 
-              <td>
-                <div className="d-flex align-items-center">
-                  <div className="flex-shrink-0">
-                    <img src="{{ car.cover }}" alt="..." className="h-5rem" />
-                  </div>
-                  <div className="flex-grow-1 ms-3">{}</div>
-                </div>
-              </td>
-              <td>
-                <form action="/delete" method="post">
-                  <input type="hidden" name="slug" value="{{ car.slug }}" />
-                  <button type="submit" className="btn btn-outline-secondary">
-                    <i className="fas fa-trash-alt fs-6"></i>
-                  </button>
-                </form>
-              </td>
-              <td>{} $</td>
-            </tr>
+           
+
 
             <tr>
-              <th scope="row">{}</th>
-              <td className="table-active">Total</td>
-              <td>{} $</td>
+              <th scope="row">3</th>
+              <td colspan="2" className="table-active">Total</td>
+              <td>00 €</td>
             </tr>
           </tbody>
         </table>

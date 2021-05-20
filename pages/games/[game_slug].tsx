@@ -26,7 +26,7 @@ const gameBySlug = ({ data }) => {
               <div className="card-body">
                 <h5 className="card-title">{data[0].name}</h5>
                 <p className="card-text">{data[0].summary}</p>
-                <p className="card-text text-success">{data[0].price / 100}$</p>
+                <p className="card-text text-success fw-bold">{data[0].price / 100}€</p>
 
                 <form method="post" action="/cart">
                   <button
@@ -70,7 +70,7 @@ const gameBySlug = ({ data }) => {
                           />
                         </p>
                         <p className="fs-2">{data[0].name}</p>
-                        <p className="text-success">{data[0].price / 100}</p>
+                        <p className="text-success fw-bold">{data[0].price / 100} €</p>
                       </div>
                       <div className="modal-footer">
                         <a

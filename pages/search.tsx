@@ -1,7 +1,6 @@
+import { getDatabase } from "../src/database";
 import { GetServerSideProps } from "next";
-import { getDatabase } from "../../src/database";
 import React from "react";
-
 type Gametype = {
   name: string;
   cover: string;
@@ -12,11 +11,12 @@ type GametypeProps = {
   data: Gametype[];
 };
 
-const platformBySlug = ({ data }) => {
+const search: React.FC<GametypeProps> = ({ data }) => {
   //console.log(data);
+
   return (
     <div className="container">
-      <h1 className="text-center">Platform by slug</h1>
+      <h1 className="text-center">Games</h1>
 
       <div className="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4">
         {data.map((game, index) => {
@@ -26,13 +26,13 @@ const platformBySlug = ({ data }) => {
                 <img src={game.cover} className="card-img-top" alt="..." />
                 <div className="card-body">
                   <h5 className="card-title">{game.name}</h5>
-                  <p className="card-text d-md-flex justify-content-md-start fw-bold text-success">
-                    {game.price / 100} €
+                  <p className="card-text d-md-flex justify-content-md-start text-success fw-bold">
+                    {game.price / 100} $
                   </p>
                 </div>
                 <div className="card-footer">
                   <a
-                    href={`../games/${game.slug}`}
+                    href={`games/${game.slug}`}
                     className="btn d-grid gap-2 col-6 mx-auto btn-outline-success "
                   >
                     See more!
@@ -47,30 +47,29 @@ const platformBySlug = ({ data }) => {
   );
 };
 
-export default platformBySlug;
+export default search;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const mongodb = await getDatabase();
 
-  const games = await mongodb
-    .db()
-    .collection("games")
-    .find({ "platform.slug": context.params.platform_slug })
-    .toArray();
-  //console.log(games);
-  const gameInfos = games.map((game) => {
-    const img = game.cover === undefined ? "/img.png" : game.cover.url;
+
+
+  export const getServerSideProps: GetServerSideProps = async () => {
+    const pattern ="Super";
+    const mongodb = await getDatabase();
+    const games = await mongodb.db().collection("games").find({ name: { $regex: `${pattern}`, $options: "i" } }).toArray();
+    //console.log(games);
+    const gameInfos = games.map((game) => {
+      const img = game.cover === undefined ? "/img.png" : game.cover.url;
+      return {
+        name: game.name,
+        cover: img,
+        slug: game.slug,
+        price: game.price,
+      };
+    });
+    //console.log(gameInfos);
     return {
-      name: game.name,
-      cover: img,
-      slug: game.slug,
-      price: game.price,
+      props: {
+        data: gameInfos,
+      },
     };
-  });
-  //console.log(gameInfos);
-  return {
-    props: {
-      data: gameInfos,
-    },
   };
-};

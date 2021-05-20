@@ -13,6 +13,7 @@ type GametypeProps = {
 
 const myGames: React.FC<GametypeProps> = ({ data }) => {
   //console.log(data);
+ 
   return (
     <div className="container">
       <h1 className="text-center">Games</h1>
@@ -26,7 +27,7 @@ const myGames: React.FC<GametypeProps> = ({ data }) => {
                 <div className="card-body">
                   <h5 className="card-title">{game.name}</h5>
                   <p className="card-text d-md-flex justify-content-md-start text-success fw-bold">
-                    {game.price / 100} $
+                    {game.price / 100} €
                   </p>
                 </div>
                 <div className="card-footer">
