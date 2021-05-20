@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }) {
                   </div>
                 </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <form className="d-flex" method="post" action="search">
+                <form className="d-flex" method="POST" action="api/a">
                   <input
                     className="form-control me-2"
                     name="searchInput"
