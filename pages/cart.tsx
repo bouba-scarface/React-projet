@@ -28,25 +28,58 @@ const cart: React.FC<panierTypeProps> = ({ data }) => {
 
         <table className="table table-dark">
           <thead>
-          <tr>
-            <th scope="col" className="text-black">Num</th>
-            <th scope="col" className="text-back">Produit(s)</th>
-            <th scope="col">Supprimer</th>
-            <th scope="col">Price</th>
-    </tr>
+            <tr>
+              <th scope="col" className="text-black">
+                Num
+              </th>
+              <th scope="col" className="text-back">
+                Produit(s)
+              </th>
+              <th scope="col">Supprimer</th>
+              <th scope="col">Price</th>
+            </tr>
           </thead>
           <tbody>
-
-            {data.map((game,index) =>{
-               if( index % 2 ===0){
-                return(
+            {data.map((game, index) => {
+              if (index % 2 === 0) {
+                return (
                   <tr>
-                  <td>{index+1}</td>
-    
+                    <td>{index + 1}</td>
+
+                    <td>
+                      <div className="d-flex align-items-center">
+                        <div className="flex-shrink-0">
+                          <img src={game.cover} alt="..." height="100rem" />
+                        </div>
+                        <div className="flex-grow-1 ms-3">{game.name}</div>
+                      </div>
+                    </td>
+                    <td>
+                      <form action="/delete" method="post">
+                        <input
+                          type="hidden"
+                          name="slug"
+                          value="{{ car.slug }}"
+                        />
+                        <button
+                          type="submit"
+                          className="btn btn-outline-secondary"
+                        >
+                          <i className="fas fa-trash-alt fs-6"></i>
+                        </button>
+                      </form>
+                    </td>
+                    <td>{game.price} €</td>
+                  </tr>
+                );
+              } else {
+                <tr className="table-active">
+                  <td>{index + 1}</td>
+
                   <td>
                     <div className="d-flex align-items-center">
                       <div className="flex-shrink-0">
-                        <img src={game.cover} alt="..." className="h-5rem" />
+                        <img src={game.cover} alt="..." height="100rem" />
                       </div>
                       <div className="flex-grow-1 ms-3">{game.name}</div>
                     </div>
@@ -54,48 +87,24 @@ const cart: React.FC<panierTypeProps> = ({ data }) => {
                   <td>
                     <form action="/delete" method="post">
                       <input type="hidden" name="slug" value="{{ car.slug }}" />
-                      <button type="submit" className="btn btn-outline-secondary">
+                      <button
+                        type="submit"
+                        className="btn btn-outline-secondary"
+                      >
                         <i className="fas fa-trash-alt fs-6"></i>
                       </button>
                     </form>
                   </td>
                   <td>{game.price} €</td>
-                </tr>
-                )
-               }else{
-                <tr className="table-active">
-                <td>{index+1}</td>
-  
-                <td>
-                  <div className="d-flex align-items-center">
-                    <div className="flex-shrink-0">
-                      <img src={ game.cover } alt="..." className="h-5rem" />
-                    </div>
-                    <div className="flex-grow-1 ms-3">{game.name}</div>
-                  </div>
-                </td>
-                <td>
-                  <form action="/delete" method="post">
-                    <input type="hidden" name="slug" value="{{ car.slug }}" />
-                    <button type="submit" className="btn btn-outline-secondary">
-                      <i className="fas fa-trash-alt fs-6"></i>
-                    </button>
-                  </form>
-                </td>
-                <td>{game.price} €</td>
-              </tr>
-               }
-              
+                </tr>;
+              }
             })}
-            
-
-
-           
-
 
             <tr>
               <th scope="row">3</th>
-              <td colspan="2" className="table-active">Total</td>
+              <td colspan="2" className="table-active">
+                Total
+              </td>
               <td>00 €</td>
             </tr>
           </tbody>

@@ -13,7 +13,7 @@ type GametypeProps = {
 
 const myGames: React.FC<GametypeProps> = ({ data }) => {
   //console.log(data);
- 
+
   return (
     <div className="container">
       <h1 className="text-center">Games</h1>
@@ -52,9 +52,14 @@ export default myGames;
 export const getServerSideProps: GetServerSideProps = async () => {
   const mongodb = await getDatabase();
   const games = await mongodb.db().collection("games").find().toArray();
-  //console.log(games);
+  console.log(games);
   const gameInfos = games.map((game) => {
     const img = game.cover === undefined ? "/img.png" : game.cover.url;
+    // const screens =
+    //   game.screenshots[0] === ""
+    //     ? (game.screenshots[0] = "Not screen")
+    //     : game.screenshots;
+
     return {
       name: game.name,
       cover: img,
@@ -62,7 +67,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       price: game.price,
     };
   });
-  //console.log(gameInfos);
+  console.log(gameInfos);
   return {
     props: {
       data: gameInfos,

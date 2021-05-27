@@ -1,34 +1,39 @@
 import { GetServerSideProps } from "next";
 import { getDatabase } from "../../src/database";
-import React from "react";
+import React, { useState } from "react";
 
 type Gametype = {
   name: string;
   cover: string;
   summary: string;
   price: number;
+  screenshots: string;
 };
 type GametypeProps = {
   data: Gametype[];
 };
 
 const gameBySlug = ({ data }) => {
+  const [scree, setScree] = useState("");
   //console.log(data);
   return (
     <div>
       <div className="container">
         <div className="card mb-3 mt-4">
           <div className="row g-0">
-            <div>
+            <div className="d-flex flex-row justify-content-center">
               <img src={data[0].cover} alt="..." />
             </div>
+
             <div className="col-md-12">
               <div className="card-body">
                 <h5 className="card-title">{data[0].name}</h5>
                 <p className="card-text">{data[0].summary}</p>
-                <p className="card-text text-success fw-bold">{data[0].price / 100}€</p>
+                <p className="card-text text-success fw-bold">
+                  {data[0].price / 100}€
+                </p>
 
-                <form method="post" action="/cart">
+                <form method="post" action="/api/addCart">
                   <button
                     value={data[0].slug}
                     data-bs-toggle="modal"
@@ -70,7 +75,9 @@ const gameBySlug = ({ data }) => {
                           />
                         </p>
                         <p className="fs-2">{data[0].name}</p>
-                        <p className="text-success fw-bold">{data[0].price / 100} €</p>
+                        <p className="text-success fw-bold">
+                          {data[0].price / 100} €
+                        </p>
                       </div>
                       <div className="modal-footer">
                         <a
@@ -99,6 +106,26 @@ const gameBySlug = ({ data }) => {
             </div>
           </div>
         </div>
+        {/* <button
+          onClick={() => {
+            <p>
+              {data[0].screenshots.map((img, index) => {
+                return (
+                  <div className="carousel-item active" key="index">
+                    <img
+                      src={img}
+                      className="d-block w-100"
+                      height="400rem"
+                      alt="..."
+                    />
+                  </div>
+                );
+              })}
+            </p>;
+          }}
+        >
+          screenshots
+        </button> */}
       </div>
     </div>
   );
@@ -121,6 +148,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       cover: img,
       summary: game.summary,
       price: game.price,
+      screenshots: game.screenshots,
     };
   });
   //console.log(gameInfos);

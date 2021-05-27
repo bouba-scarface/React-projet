@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <div className="container-fluid">
         <div className="col-lg-12">
-          <nav className="navbar navbar-expand-lg navbar-light bg-dark bg-gradient">
+          <nav className="navbar navbar-expand-lg navbar-light bg-dark bg-gradient fixed-top">
             <div className="container-fluid">
               <a className="navbar-brand text-white" href="/">
                 Home
@@ -61,7 +61,7 @@ function MyApp({ Component, pageProps }) {
                   </div>
                 </a>
                 &nbsp;&nbsp;&nbsp;&nbsp;
-                <form className="d-flex" method="POST" action="api/a">
+                <form className="d-flex" method="POST" action="/api/searchForm">
                   <input
                     className="form-control me-2"
                     name="searchInput"

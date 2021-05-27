@@ -1,4 +1,4 @@
-import { getDatabase } from "../src/database";
+import { getDatabase } from "../../src/database";
 import { GetServerSideProps } from "next";
 import React from "react";
 type Gametype = {
@@ -49,27 +49,29 @@ const search: React.FC<GametypeProps> = ({ data }) => {
 
 export default search;
 
-
-
-
-  export const getServerSideProps: GetServerSideProps = async () => {
-    const pattern ="Super";
-    const mongodb = await getDatabase();
-    const games = await mongodb.db().collection("games").find({ name: { $regex: `${pattern}`, $options: "i" } }).toArray();
-    //console.log(games);
-    const gameInfos = games.map((game) => {
-      const img = game.cover === undefined ? "/img.png" : game.cover.url;
-      return {
-        name: game.name,
-        cover: img,
-        slug: game.slug,
-        price: game.price,
-      };
-    });
-    //console.log(gameInfos);
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const pattern = context.params.search_slug;
+  console.log(pattern);
+  const mongodb = await getDatabase();
+  const games = await mongodb
+    .db()
+    .collection("games")
+    .find({ name: { $regex: `${pattern}`, $options: "i" } })
+    .toArray();
+  //console.log(games);
+  const gameInfos = games.map((game) => {
+    const img = game.cover === undefined ? "/img.png" : game.cover.url;
     return {
-      props: {
-        data: gameInfos,
-      },
+      name: game.name,
+      cover: img,
+      slug: game.slug,
+      price: game.price,
     };
+  });
+  //console.log(gameInfos);
+  return {
+    props: {
+      data: gameInfos,
+    },
   };
+};

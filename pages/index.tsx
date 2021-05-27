@@ -1,3 +1,3 @@
 export default function Home() {
-  return <h1>My Game catalogue</h1>;
+  return <h1 className="mt-(">My Game catalogue</h1>;
 }
